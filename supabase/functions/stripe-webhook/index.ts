@@ -114,6 +114,84 @@ Deno.serve(async (req: Request) => {
       console.log("License created successfully:", license.license_key);
     }
 
+    if (event.type === "invoice.payment_succeeded") {
+      const invoice = event.data.object;
+      const subscriptionId = invoice.subscription;
+
+      console.log("Payment succeeded for subscription:", subscriptionId);
+
+      const { data: existingLicense } = await supabase
+        .from("licenses")
+        .select("*")
+        .eq("metadata->stripe_subscription_id", subscriptionId)
+        .maybeSingle();
+
+      if (existingLicense) {
+        const billingPeriod = existingLicense.metadata?.billing_period || "annual";
+        const currentExpiry = new Date(existingLicense.expires_at);
+        const now = new Date();
+        
+        const baseDate = currentExpiry > now ? currentExpiry : now;
+        
+        if (billingPeriod === "monthly") {
+          baseDate.setMonth(baseDate.getMonth() + 1);
+        } else {
+          baseDate.setFullYear(baseDate.getFullYear() + 1);
+        }
+
+        const { error } = await supabase
+          .from("licenses")
+          .update({
+            status: "active",
+            expires_at: baseDate.toISOString(),
+          })
+          .eq("id", existingLicense.id);
+
+        if (error) {
+          console.error("Failed to extend license:", error);
+        } else {
+          console.log("License extended until:", baseDate.toISOString());
+        }
+      }
+    }
+
+    if (event.type === "customer.subscription.updated") {
+      const subscription = event.data.object;
+      const subscriptionId = subscription.id;
+
+      console.log("Subscription updated:", subscriptionId);
+
+      const { data: existingLicense } = await supabase
+        .from("licenses")
+        .select("*")
+        .eq("metadata->stripe_subscription_id", subscriptionId)
+        .maybeSingle();
+
+      if (existingLicense) {
+        const updates: any = {};
+        
+        if (subscription.cancel_at_period_end) {
+          console.log("Subscription will cancel at period end");
+        }
+
+        if (subscription.status === "active" && existingLicense.status !== "active") {
+          updates.status = "active";
+          console.log("Reactivating license");
+        }
+
+        if (Object.keys(updates).length > 0) {
+          const { error } = await supabase
+            .from("licenses")
+            .update(updates)
+            .eq("id", existingLicense.id);
+
+          if (error) {
+            console.error("Failed to update license:", error);
+          }
+        }
+      }
+    }
+
     if (event.type === "customer.subscription.deleted") {
       const subscription = event.data.object;
       console.log("Subscription cancelled:", subscription.id);
@@ -125,20 +203,8 @@ Deno.serve(async (req: Request) => {
 
       if (error) {
         console.error("Failed to cancel license:", error);
-      }
-    }
-
-    if (event.type === "invoice.payment_failed") {
-      const invoice = event.data.object;
-      console.log("Payment failed for subscription:", invoice.subscription);
-
-      const { error } = await supabase
-        .from("licenses")
-        .update({ status: "expired" })
-        .eq("metadata->stripe_subscription_id", invoice.subscription);
-
-      if (error) {
-        console.error("Failed to expire license:", error);
+      } else {
+        console.log("License marked as cancelled");
       }
     }
 
