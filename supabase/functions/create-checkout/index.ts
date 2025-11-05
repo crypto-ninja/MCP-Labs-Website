@@ -34,8 +34,8 @@ Deno.serve(async (req: Request) => {
       throw new Error("Price ID is required");
     }
 
-    const params = new URLSearchParams({
-      "mode": billingPeriod === "monthly" ? "subscription" : "payment",
+    const params: Record<string, string> = {
+      "mode": "subscription",
       "line_items[0][price]": priceId,
       "line_items[0][quantity]": "1",
       "success_url": successUrl,
@@ -43,11 +43,15 @@ Deno.serve(async (req: Request) => {
       "metadata[product_id]": productId,
       "metadata[tier]": tier,
       "metadata[billing_period]": billingPeriod,
-    });
+    };
 
     if (customerEmail) {
-      params.append("customer_email", customerEmail);
+      params["customer_email"] = customerEmail;
     }
+
+    const formBody = Object.entries(params)
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join("&");
 
     const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
       method: "POST",
@@ -55,13 +59,13 @@ Deno.serve(async (req: Request) => {
         "Authorization": `Bearer ${STRIPE_SECRET_KEY}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: params.toString(),
+      body: formBody,
     });
 
     if (!response.ok) {
       const error = await response.text();
       console.error("Stripe API error:", error);
-      throw new Error(`Stripe API error: ${response.statusText}`);
+      throw new Error(`Stripe API error: ${response.statusText} - ${error}`);
     }
 
     const session = await response.json();
