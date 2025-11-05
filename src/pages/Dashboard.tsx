@@ -1,97 +1,31 @@
-import { useEffect, useState } from 'react';
-import { Copy, Check, Download, Key, Users, LogIn } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
+import { Menu, LogIn } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase, License } from '../lib/supabase';
-import { getTierInfo } from '../lib/license';
-import { getProduct } from '../lib/products';
+import Sidebar from '../components/dashboard/Sidebar';
+import Overview from './dashboard/Overview';
+import Licenses from './dashboard/Licenses';
+import Billing from './dashboard/Billing';
+import Settings from './dashboard/Settings';
+import Support from './dashboard/Support';
 
 export default function Dashboard() {
-  const { user, signOut, loading: authLoading } = useAuth();
-  const [licenses, setLicenses] = useState<License[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
 
-  useEffect(() => {
-    if (user) {
-      loadLicenses();
-    } else if (!authLoading) {
-      setLoading(false);
-    }
-  }, [user, authLoading]);
-
-  const loadLicenses = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('licenses')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setLicenses(data || []);
-    } catch (error) {
-      console.error('Error loading licenses:', error);
-    } finally {
-      setLoading(false);
-    }
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path === '/dashboard') return 'Overview';
+    if (path.includes('/licenses')) return 'My Licenses';
+    if (path.includes('/billing')) return 'Billing & Invoices';
+    if (path.includes('/settings')) return 'Account Settings';
+    if (path.includes('/support')) return 'Support';
+    return 'Dashboard';
   };
 
-  const copyToClipboard = async (text: string, key: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedKey(key);
-      setTimeout(() => setCopiedKey(null), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
-
-  const downloadSetupInstructions = (license: License) => {
-    const tierInfo = getTierInfo(license.tier);
-    const instructions = `# MCP Labs - GitHub MCP Server Setup
-
-## Your License
-
-License Key: ${license.license_key}
-Tier: ${tierInfo.name}
-Max Developers: ${tierInfo.maxDevelopers === -1 ? 'Unlimited' : tierInfo.maxDevelopers}
-Status: ${license.status}
-
-## Installation
-
-Add to your Claude Desktop config:
-\`\`\`json
-{
-  "mcpServers": {
-    "github": {
-      "env": {
-        "MCP_LICENSE_KEY": "${license.license_key}"
-      }
-    }
-  }
-}
-\`\`\`
-
-## Documentation
-https://github.com/crypto-ninja/github-mcp-server
-
-## Support
-licensing@mcplabs.co.uk
-`;
-
-    const blob = new Blob([instructions], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `mcp-labs-setup-${license.tier}.md`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  if (loading || authLoading) {
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -104,17 +38,19 @@ licensing@mcplabs.co.uk
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md w-full px-4">
-          <div className="bg-white rounded-2xl shadow-lg p-8 text-center border-2 border-gray-200">
-            <LogIn className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full">
+          <div className="bg-white rounded-2xl shadow-xl p-8 text-center border-2 border-gray-200">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <LogIn className="w-8 h-8 text-blue-600" />
+            </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In Required</h2>
             <p className="text-gray-600 mb-6">
-              Please sign in to access your dashboard and view your licenses.
+              Please sign in to access your dashboard and manage your licenses.
             </p>
             <Link
               to="/login"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full justify-center"
             >
               <LogIn className="w-5 h-5" />
               Sign In
@@ -133,112 +69,55 @@ licensing@mcplabs.co.uk
     );
   }
 
-  if (!licenses.length) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="mb-8 flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
-              <p className="text-gray-600">Welcome, {user.email}</p>
-            </div>
-            <button
-              onClick={signOut}
-              className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
-            >
-              Sign Out
-            </button>
-          </div>
-          <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
-            <Key className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">No Licenses Found</h2>
-            <p className="text-gray-600 mb-6">
-              You don't have any active licenses yet. Purchase a license to get started.
-            </p>
-            <Link
-              to="/#pricing"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-            >
-              View Pricing
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="mb-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Licenses</h1>
-            <p className="text-gray-600">Manage your MCP Labs licenses</p>
-          </div>
-          <button
-            onClick={signOut}
-            className="text-gray-600 hover:text-gray-900 font-medium"
-          >
-            Sign Out
-          </button>
-        </div>
+    <div className="min-h-screen bg-gray-50 flex">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-        <div className="space-y-6">
-          {licenses.map((license) => {
-            const tierInfo = getTierInfo(license.tier);
-            const isActive = license.status === 'active';
-            const product = getProduct(license.product_id || 'github');
-
-            return (
-              <div
-                key={license.id}
-                className={`bg-white rounded-2xl shadow-lg p-8 ${!isActive ? 'opacity-60' : ''}`}
+      <div className="flex-1 flex flex-col min-w-0">
+        <header className="sticky top-0 z-30 bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden text-gray-600 hover:text-gray-900"
               >
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="text-3xl">{product?.icon || '🐙'}</span>
-                      <div>
-                        <h3 className="text-2xl font-bold text-gray-900">{tierInfo.name} License</h3>
-                        <p className="text-sm text-gray-600">{product?.name || 'GitHub MCP Server'}</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4 text-sm text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4" />
-                        <span>{tierInfo.maxDevelopers === -1 ? 'Unlimited' : `Up to ${tierInfo.maxDevelopers}`} developers</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => downloadSetupInstructions(license)}
-                    className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-gray-200"
-                  >
-                    <Download className="w-4 h-4" />
-                    Setup Guide
-                  </button>
-                </div>
+                <Menu className="w-6 h-6" />
+              </button>
+              <h1 className="text-2xl font-bold text-gray-900">{getPageTitle()}</h1>
+            </div>
 
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <label className="block text-sm font-semibold text-gray-900 mb-3">
-                    Your License Key
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <code className="flex-1 bg-white border-2 border-gray-200 rounded-lg px-4 py-3 font-mono text-sm break-all">
-                      {license.license_key}
-                    </code>
-                    <button
-                      onClick={() => copyToClipboard(license.license_key, license.id)}
-                      className="flex-shrink-0 bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
-                    >
-                      {copiedKey === license.id ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
-                    </button>
-                  </div>
-                </div>
+            <div className="flex items-center gap-4">
+              <div className="hidden sm:block text-sm text-gray-600">
+                {user.email}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
+          <Routes>
+            <Route index element={<Overview />} />
+            <Route path="licenses" element={<Licenses />} />
+            <Route path="billing" element={<Billing />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="support" element={<Support />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </main>
+
+        <footer className="border-t border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-600">
+            <p>© 2025 MCP Labs. All rights reserved.</p>
+            <div className="flex gap-4">
+              <a href="/#" className="hover:text-gray-900 transition-colors">
+                Privacy Policy
+              </a>
+              <a href="/#" className="hover:text-gray-900 transition-colors">
+                Terms of Service
+              </a>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
