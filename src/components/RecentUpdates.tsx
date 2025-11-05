@@ -10,39 +10,39 @@ export default function RecentUpdates() {
               Latest Release
             </div>
             <span className="text-gray-600 font-mono">v1.3.0</span>
-            <span className="text-gray-500 text-sm">Nov 4, 2025</span>
+            <span className="text-gray-500 text-sm">November 4, 2025</span>
           </div>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            9 New Tools: From 22 to 31
+            9 New Tools Added (22 → 31 Tools)
           </h2>
 
           <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-            Our latest release adds comprehensive repository management and PR workflow automation.
-            We've expanded from 22 tools to <strong>31 powerful tools</strong>, giving you even more control
-            over your GitHub automation workflows.
+            Our latest release significantly expands the GitHub MCP Server with 9 new tools,
+            bringing the total from 22 to <strong>31 powerful tools</strong>. This update focuses on
+            comprehensive repository management and advanced PR workflow automation.
           </p>
 
           <div className="bg-blue-50 border-l-4 border-blue-600 p-4 mb-6">
             <p className="text-blue-900 mb-2">
-              <strong>What's new?</strong>
+              <strong>What's New in v1.3.0</strong>
             </p>
             <ul className="text-blue-900 space-y-1 ml-4">
-              <li>• Enhanced repository management tools</li>
-              <li>• Advanced PR workflow automation</li>
-              <li>• Better integration with GitHub Actions</li>
-              <li>• Improved search and discovery features</li>
+              <li>• Repository Management: 6 new tools for complete repo control</li>
+              <li>• PR Workflow: 3 new tools for advanced review automation</li>
+              <li>• Enhanced team and permission management</li>
+              <li>• Improved file operations and branch protection</li>
             </ul>
           </div>
 
           <a
-            href="https://github.com/mcplabs"
+            href="https://github.com/crypto-ninja/github-mcp-server"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
           >
             <Github className="w-5 h-5" />
-            Read the full story on GitHub
+            View on GitHub
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

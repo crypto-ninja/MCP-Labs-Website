@@ -176,7 +176,7 @@ export default function ProductShowcase() {
             More MCP servers in development. Stay tuned!
           </p>
           <a
-            href="https://github.com/mcplabs"
+            href="https://github.com/crypto-ninja"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"

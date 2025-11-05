@@ -117,7 +117,7 @@ export default function Footer() {
 
           <div className="flex gap-6">
             <a
-              href="https://github.com/mcplabs"
+              href="https://github.com/crypto-ninja"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors"

@@ -5,9 +5,23 @@ export default function ToolsOverview() {
     {
       icon: Package,
       title: 'Repository Management',
-      count: 3,
+      count: 7,
       color: 'blue',
-      tools: ['Create repos', 'Fork repos', 'List repositories']
+      tools: ['Create repos', 'Fork repos', 'List repositories', 'Update settings', 'Archive repos', 'Delete repos', 'Transfer ownership']
+    },
+    {
+      icon: GitPullRequest,
+      title: 'PR Workflow & Reviews',
+      count: 5,
+      color: 'green',
+      tools: ['Create PRs', 'Review PRs', 'Merge PRs', 'Request changes', 'Approve reviews']
+    },
+    {
+      icon: Search,
+      title: 'File Operations',
+      count: 4,
+      color: 'purple',
+      tools: ['Read files', 'Create files', 'Update files', 'Delete files']
     },
     {
       icon: Bug,
@@ -17,13 +31,6 @@ export default function ToolsOverview() {
       tools: ['Create issues', 'Update issues', 'Search issues']
     },
     {
-      icon: GitPullRequest,
-      title: 'Pull Request Operations',
-      count: 3,
-      color: 'purple',
-      tools: ['Create PRs', 'Review PRs', 'Merge PRs']
-    },
-    {
       icon: Zap,
       title: 'GitHub Actions',
       count: 2,
@@ -31,25 +38,18 @@ export default function ToolsOverview() {
       tools: ['Trigger workflows', 'Monitor runs']
     },
     {
-      icon: Search,
-      title: 'Search & Discovery',
-      count: 2,
-      color: 'green',
-      tools: ['Code search', 'Repository search']
-    },
-    {
       icon: Tag,
       title: 'Release Management',
       count: 2,
-      color: 'indigo',
+      color: 'blue',
       tools: ['Create releases', 'List releases']
     },
     {
       icon: User,
-      title: 'User Information',
-      count: 1,
+      title: 'User & Teams',
+      count: 8,
       color: 'pink',
-      tools: ['User profiles']
+      tools: ['User profiles', 'List teams', 'Team members', 'Add collaborators', 'Remove collaborators', 'Manage permissions', 'List branches', 'Branch protection']
     },
   ];
 
@@ -74,10 +74,10 @@ export default function ToolsOverview() {
             31 Comprehensive Tools
           </h2>
           <p className="text-xl text-gray-600 mb-2">
-            Everything you need for GitHub automation in one powerful server
+            Complete GitHub automation toolkit in one powerful MCP server
           </p>
           <p className="text-sm text-gray-500">
-            Updated in v1.3.0 - 9 new tools added (Nov 2025)
+            v1.3.0 - Expanded from 22 to 31 tools (November 2025)
           </p>
         </div>
 
