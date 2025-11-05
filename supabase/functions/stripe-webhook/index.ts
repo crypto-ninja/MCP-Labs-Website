@@ -4,11 +4,13 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey, Stripe-Signature",
 };
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const STRIPE_WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 function generateLicenseKey(tier: string): string {
@@ -39,11 +41,6 @@ function generateChecksum(input: string): string {
   return Math.abs(hash).toString(36).toUpperCase().substring(0, 6);
 }
 
-function getTierMaxDevelopers(tier: string): number {
-  const tiers: Record<string, number> = { startup: 10, business: 50, enterprise: -1 };
-  return tiers[tier] || 10;
-}
-
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 200, headers: corsHeaders });
@@ -52,7 +49,7 @@ Deno.serve(async (req: Request) => {
   try {
     const body = await req.text();
     const event = JSON.parse(body);
-    console.log("Stripe event:", event.type);
+    console.log("Stripe event received:", event.type);
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
@@ -61,29 +58,18 @@ Deno.serve(async (req: Request) => {
       const billingPeriod = session.metadata?.billing_period || "annual";
       const customerEmail = session.customer_details?.email || session.customer_email;
 
+      console.log("Processing checkout:", { productId, tier, billingPeriod, customerEmail });
+
       if (!tier || !customerEmail) {
-        throw new Error("Missing required data");
+        throw new Error("Missing required metadata: tier or customerEmail");
       }
 
-      const { data: existingCustomer } = await supabase
-        .from("customers")
-        .select("id")
-        .eq("email", customerEmail)
-        .maybeSingle();
+      const { data: existingUser } = await supabase.auth.admin.listUsers();
+      const user = existingUser.users.find((u) => u.email === customerEmail);
 
-      let customerId: string;
-
-      if (existingCustomer) {
-        customerId = existingCustomer.id;
-      } else {
-        const { data: newCustomer, error } = await supabase
-          .from("customers")
-          .insert({ email: customerEmail, stripe_customer_id: session.customer })
-          .select("id")
-          .single();
-
-        if (error) throw error;
-        customerId = newCustomer.id;
+      if (!user) {
+        console.error("No user found with email:", customerEmail);
+        throw new Error(`No user account found for email: ${customerEmail}. User must sign up first.`);
       }
 
       const licenseKey = generateLicenseKey(tier);
@@ -95,35 +81,79 @@ Deno.serve(async (req: Request) => {
         expiresAt.setFullYear(expiresAt.getFullYear() + 1);
       }
 
-      const { error: licenseError } = await supabase
-        .from("licenses")
-        .insert({
-          license_key: licenseKey,
-          customer_id: customerId,
-          product_id: productId,
-          tier,
-          status: "active",
-          max_developers: getTierMaxDevelopers(tier),
+      const licenseData = {
+        user_id: user.id,
+        license_key: licenseKey,
+        product_id: productId,
+        tier,
+        status: "active",
+        expires_at: expiresAt.toISOString(),
+        metadata: {
           stripe_subscription_id: session.subscription || null,
           stripe_payment_intent_id: session.payment_intent,
+          stripe_customer_id: session.customer,
           amount_paid: session.amount_total,
           currency: session.currency,
-          expires_at: expiresAt.toISOString(),
-        });
+          billing_period: billingPeriod,
+        },
+      };
 
-      if (licenseError) throw licenseError;
-      console.log("License created:", licenseKey, "Period:", billingPeriod);
+      console.log("Creating license:", licenseData);
+
+      const { data: license, error: licenseError } = await supabase
+        .from("licenses")
+        .insert(licenseData)
+        .select()
+        .single();
+
+      if (licenseError) {
+        console.error("License creation error:", licenseError);
+        throw licenseError;
+      }
+
+      console.log("License created successfully:", license.license_key);
+    }
+
+    if (event.type === "customer.subscription.deleted") {
+      const subscription = event.data.object;
+      console.log("Subscription cancelled:", subscription.id);
+
+      const { error } = await supabase
+        .from("licenses")
+        .update({ status: "cancelled" })
+        .eq("metadata->stripe_subscription_id", subscription.id);
+
+      if (error) {
+        console.error("Failed to cancel license:", error);
+      }
+    }
+
+    if (event.type === "invoice.payment_failed") {
+      const invoice = event.data.object;
+      console.log("Payment failed for subscription:", invoice.subscription);
+
+      const { error } = await supabase
+        .from("licenses")
+        .update({ status: "expired" })
+        .eq("metadata->stripe_subscription_id", invoice.subscription);
+
+      if (error) {
+        console.error("Failed to expire license:", error);
+      }
     }
 
     return new Response(
       JSON.stringify({ received: true }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Webhook error:", error);
     return new Response(
-      JSON.stringify({ error: true, message: error instanceof Error ? error.message : "Webhook failed" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      JSON.stringify({ 
+        error: true, 
+        message: error instanceof Error ? error.message : "Webhook processing failed" 
+      }),
+      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
