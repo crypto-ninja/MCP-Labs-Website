@@ -79,7 +79,8 @@ export default function Dashboard() {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden text-gray-600 hover:text-gray-900"
+                className="lg:hidden text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                aria-label="Open sidebar menu"
               >
                 <Menu className="w-6 h-6" />
               </button>
@@ -87,14 +88,15 @@ export default function Dashboard() {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="hidden sm:block text-sm text-gray-600">
-                {user.email}
+              <div className="hidden sm:flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-lg">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm text-gray-700 font-medium">{user.email}</span>
               </div>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
           <Routes>
             <Route index element={<Overview />} />
             <Route path="licenses" element={<Licenses />} />
@@ -105,7 +107,7 @@ export default function Dashboard() {
           </Routes>
         </main>
 
-        <footer className="border-t border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
+        <footer className="border-t border-gray-200 px-4 sm:px-6 lg:px-8 py-6 bg-white">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-600">
             <p>© 2025 MCP Labs. All rights reserved.</p>
             <div className="flex gap-4">
