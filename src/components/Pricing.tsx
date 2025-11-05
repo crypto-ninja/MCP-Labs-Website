@@ -27,7 +27,8 @@ export default function Pricing({ productId = 'github' }: PricingProps) {
 
     try {
       const url = await createCheckoutSession(productId, tier, period);
-      window.location.href = url;
+      window.open(url, '_blank');
+      setLoading(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to start checkout');
       setLoading(null);
