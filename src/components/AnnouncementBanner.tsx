@@ -11,9 +11,9 @@ export default function AnnouncementBanner() {
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 pr-8">
         <Rocket className="w-5 h-5 flex-shrink-0" />
         <p className="text-sm md:text-base font-medium text-center">
-          <span className="font-bold">NEW: v2.1.0</span> with Code-First Execution - 98% Token Reduction!{' '}
+          <span className="font-bold">NEW: v1.3.0</span> - 9 New Tools Added (22 → 31 Tools)!{' '}
           <a
-            href="https://github.com/crypto-ninja/github-mcp-server/releases/tag/v2.1.0"
+            href="https://github.com/crypto-ninja/github-mcp-server/releases/tag/v1.3.0"
             target="_blank"
             rel="noopener noreferrer"
             className="underline hover:text-blue-100 transition-colors"
