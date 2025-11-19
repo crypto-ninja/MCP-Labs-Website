@@ -4,7 +4,7 @@ export default function Trust() {
   const reasons = [
     {
       icon: Star,
-      title: '31 Comprehensive Tools',
+      title: '42 Comprehensive Tools',
       description: 'Complete GitHub API coverage in one unified server'
     },
     {
@@ -24,8 +24,8 @@ export default function Trust() {
     },
     {
       icon: Zap,
-      title: 'Fast Iteration',
-      description: 'v1.3.0 adds 9 new tools - continuous improvement'
+      title: 'Revolutionary Performance',
+      description: 'v2.1.0 with 98% token reduction and tool discovery'
     },
     {
       icon: MessageCircle,

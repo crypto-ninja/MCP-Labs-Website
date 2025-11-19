@@ -25,16 +25,16 @@ export default function Products() {
       icon: '🐙',
       name: 'GitHub MCP Server',
       tagline: 'Complete GitHub automation',
-      description: 'The most comprehensive GitHub MCP server with 31 powerful tools for repository management, PR workflows, issue tracking, and CI/CD automation.',
-      toolCount: 31,
+      description: 'The most comprehensive GitHub MCP server with 42 powerful tools featuring revolutionary code-first execution with 98% token reduction and intelligent tool discovery.',
+      toolCount: 42,
       status: 'production',
       features: [
+        'Code-First Execution (98% token reduction)',
+        'Tool Discovery (3 discovery functions)',
         'Repository Management (7 tools)',
-        'PR Workflow & Reviews (5 tools)',
-        'File Operations (4 tools)',
-        'Issue Tracking (3 tools)',
-        'CI/CD Monitoring (2 tools)',
-        'Search & Discovery (2 tools)'
+        'PR Workflow & Reviews (7 tools)',
+        'File Operations (5 tools)',
+        'Issue Tracking (4 tools)'
       ],
       githubLink: 'https://github.com/crypto-ninja/github-mcp-server',
       productLink: '/products/github'

@@ -28,7 +28,7 @@ export default function GitHubMCP() {
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              31 powerful tools for AI-powered GitHub automation.<br />
+              42 powerful tools for AI-powered GitHub automation.<br />
               Built by developers, for developers.
             </p>
 
@@ -72,7 +72,7 @@ export default function GitHubMCP() {
               </div>
 
               <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-6 py-3 rounded-full font-semibold">
-                📦 v1.3.0 - 31 Tools
+                📦 v2.1.0 - 42 Tools
               </div>
             </div>
           </div>
