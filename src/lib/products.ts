@@ -31,8 +31,8 @@ export const PRODUCTS: Record<string, Product> = {
     id: 'github',
     name: 'GitHub MCP Server',
     icon: '🐙',
-    tagline: 'Complete GitHub automation',
-    toolCount: 31,
+    tagline: 'Complete GitHub automation with code-first execution',
+    toolCount: 42,
     status: 'production',
     tiers: {
       free: {
@@ -40,7 +40,8 @@ export const PRODUCTS: Record<string, Product> = {
         price: 0,
         license: 'AGPL v3',
         features: [
-          'All 31 tools',
+          'All 42 tools',
+          'Code-first execution included',
           'Open source projects only',
           'Must share source code',
           'Community support',
@@ -57,12 +58,13 @@ export const PRODUCTS: Record<string, Product> = {
         stripePriceIdMonthly: import.meta.env.VITE_STRIPE_PRICE_STARTUP_MONTHLY,
         maxDevelopers: 10,
         features: [
-          'All 31 tools',
+          'All 42 tools',
+          'Revolutionary code-first execution',
+          '98% token savings',
           'Up to 10 developers',
           'Email support',
           'No source sharing required',
-          'Commercial use allowed',
-          'Regular updates'
+          'Commercial use allowed'
         ],
         badge: 'Most Popular',
         highlighted: true
@@ -75,12 +77,13 @@ export const PRODUCTS: Record<string, Product> = {
         stripePriceIdMonthly: import.meta.env.VITE_STRIPE_PRICE_BUSINESS_MONTHLY,
         maxDevelopers: 50,
         features: [
-          'All 31 tools',
+          'All 42 tools',
+          'Code-first execution included',
+          'Perfect for AI coding assistants',
+          'Cursor, Windsurf, Claude Code',
           'Up to 50 developers',
           'Priority support',
-          'No source sharing required',
-          'Commercial use allowed',
-          'Early access to new tools'
+          'No source sharing required'
         ]
       },
       enterprise: {
@@ -91,7 +94,8 @@ export const PRODUCTS: Record<string, Product> = {
         stripePriceIdMonthly: import.meta.env.VITE_STRIPE_PRICE_ENTERPRISE_MONTHLY,
         maxDevelopers: 'Unlimited',
         features: [
-          'All 31 tools',
+          'All 42 tools',
+          'Code-first execution included',
           'Unlimited developers',
           '24/7 support with SLA',
           'Dedicated account manager',

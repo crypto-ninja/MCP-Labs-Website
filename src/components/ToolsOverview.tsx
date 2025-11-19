@@ -3,6 +3,13 @@ import { Package, Bug, GitPullRequest, Zap, Search, Tag, User } from 'lucide-rea
 export default function ToolsOverview() {
   const categories = [
     {
+      icon: Zap,
+      title: 'Code Execution',
+      count: 1,
+      color: 'yellow',
+      tools: ['Execute TypeScript with full tool access - THE GAME CHANGER!']
+    },
+    {
       icon: Package,
       title: 'Repository Management',
       count: 7,
@@ -31,13 +38,6 @@ export default function ToolsOverview() {
       tools: ['Create issues', 'Update issues', 'Search issues']
     },
     {
-      icon: Zap,
-      title: 'GitHub Actions',
-      count: 2,
-      color: 'yellow',
-      tools: ['Trigger workflows', 'Monitor runs']
-    },
-    {
       icon: Tag,
       title: 'Release Management',
       count: 2,
@@ -46,10 +46,10 @@ export default function ToolsOverview() {
     },
     {
       icon: User,
-      title: 'User & Teams',
-      count: 8,
+      title: 'Enhanced Workspace & Teams',
+      count: 11,
       color: 'pink',
-      tools: ['User profiles', 'List teams', 'Team members', 'Add collaborators', 'Remove collaborators', 'Manage permissions', 'List branches', 'Branch protection']
+      tools: ['User profiles', 'List teams', 'Team members', 'Add collaborators', 'Remove collaborators', 'Manage permissions', 'List branches', 'Branch protection', 'Advanced workspace tools (3 new)']
     },
   ];
 
@@ -71,13 +71,13 @@ export default function ToolsOverview() {
             🐙 GitHub MCP Server
           </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            31 Comprehensive Tools
+            42 Comprehensive Tools
           </h2>
           <p className="text-xl text-gray-600 mb-2">
-            Complete GitHub automation toolkit in one powerful MCP server
+            Complete GitHub automation toolkit with revolutionary code-first execution
           </p>
           <p className="text-sm text-gray-500">
-            v1.3.0 - Expanded from 22 to 31 tools (November 2025)
+            v2.1.0 - Now with code execution and 42 tools (November 2025)
           </p>
         </div>
 

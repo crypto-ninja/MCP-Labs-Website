@@ -10,8 +10,12 @@ export default function FAQ() {
       answer: 'Model Context Protocol (MCP) is an open standard developed by Anthropic that enables AI assistants to securely interact with external tools and data sources. MCP Labs builds comprehensive MCP servers that give AI assistants powerful GitHub capabilities.'
     },
     {
+      question: 'What is code-first execution?',
+      answer: 'Instead of loading 41 tool definitions into Claude\'s context (consuming 70,000+ tokens), v2.0 exposes ONE execute_code tool. Claude writes TypeScript that calls tools on-demand, reducing token usage by 98%. This makes workflows faster, cheaper, and more scalable.'
+    },
+    {
       question: 'How does licensing work?',
-      answer: 'We offer dual licensing: AGPL v3 for open source projects (requires source sharing) and commercial licenses for proprietary use. Commercial licenses start at £399/year and remove the source sharing requirement. All licenses include all 31 tools.'
+      answer: 'We offer dual licensing: AGPL v3 for open source projects (requires source sharing) and commercial licenses for proprietary use. Commercial licenses start at £399/year and remove the source sharing requirement. All licenses include all 42 tools with code-first execution.'
     },
     {
       question: 'Can I try before buying?',
@@ -31,7 +35,7 @@ export default function FAQ() {
     },
     {
       question: 'How do I integrate MCP Labs into my project?',
-      answer: 'Integration is simple! Install via npm, configure your GitHub token, and start using any of the 31 tools. We provide comprehensive documentation with code examples for every tool. Most teams are up and running in under 30 minutes.'
+      answer: 'Integration is simple! Install via npm, configure your GitHub token, and start using any of the 42 tools. We provide comprehensive documentation with code examples for every tool. Most teams are up and running in under 30 minutes. The code-first execution requires no additional configuration.'
     }
   ];
 

@@ -1,5 +1,7 @@
+import AnnouncementBanner from '../components/AnnouncementBanner';
 import Navigation from '../components/Navigation';
 import Hero from '../components/Hero';
+import FeaturesV2 from '../components/FeaturesV2';
 import ProductShowcase from '../components/ProductShowcase';
 import ToolsOverview from '../components/ToolsOverview';
 import UseCases from '../components/UseCases';
@@ -14,8 +16,10 @@ import Footer from '../components/Footer';
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
+      <AnnouncementBanner />
       <Navigation />
       <Hero />
+      <FeaturesV2 />
       <ProductShowcase />
       <ToolsOverview />
       <UseCases />

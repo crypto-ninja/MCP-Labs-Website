@@ -21,12 +21,14 @@ export default function Hero() {
           </div>
 
           <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Professional MCP Servers<br />for AI-Powered Automation
+            42 GitHub Tools. 98% Token Reduction.<br />Code-First Architecture.
           </h2>
 
-          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Production-ready Model Context Protocol servers.<br />
-            Built by developers, for developers.
+          <p className="text-xl md:text-2xl text-gray-600 mb-4 max-w-3xl mx-auto font-semibold">
+            The only GitHub MCP Server with revolutionary code-first execution.
+          </p>
+          <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-2xl mx-auto">
+            98% fewer tokens, 95% faster initialization.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
