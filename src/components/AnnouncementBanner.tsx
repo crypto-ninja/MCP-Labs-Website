@@ -7,7 +7,7 @@ export default function AnnouncementBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 relative">
+    <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 pr-8">
         <Rocket className="w-5 h-5 flex-shrink-0" />
         <p className="text-sm md:text-base font-medium text-center">
