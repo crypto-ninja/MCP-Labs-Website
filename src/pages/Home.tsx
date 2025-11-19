@@ -1,7 +1,9 @@
 import AnnouncementBanner from '../components/AnnouncementBanner';
 import Navigation from '../components/Navigation';
 import Hero from '../components/Hero';
+import StatsSection from '../components/StatsSection';
 import FeaturesV2 from '../components/FeaturesV2';
+import ComparisonTable from '../components/ComparisonTable';
 import ProductShowcase from '../components/ProductShowcase';
 import ToolsOverview from '../components/ToolsOverview';
 import UseCases from '../components/UseCases';
@@ -19,7 +21,9 @@ export default function Home() {
       <AnnouncementBanner />
       <Navigation />
       <Hero />
+      <StatsSection />
       <FeaturesV2 />
+      <ComparisonTable />
       <ProductShowcase />
       <ToolsOverview />
       <UseCases />

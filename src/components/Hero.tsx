@@ -21,7 +21,7 @@ export default function Hero() {
           </div>
 
           <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            42 GitHub Tools. 98% Token Reduction.<br />Code-First Architecture.
+            42 GitHub Tools. One Execute Tool.<br />98% Token Reduction.
           </h2>
 
           <p className="text-xl md:text-2xl text-gray-600 mb-4 max-w-3xl mx-auto font-semibold">
