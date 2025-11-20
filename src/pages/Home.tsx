@@ -1,4 +1,3 @@
-import AnnouncementBanner from '../components/AnnouncementBanner';
 import Navigation from '../components/Navigation';
 import Hero from '../components/Hero';
 import StatsSection from '../components/StatsSection';
@@ -18,7 +17,6 @@ import Footer from '../components/Footer';
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      <AnnouncementBanner />
       <Navigation />
       <Hero />
       <StatsSection />
