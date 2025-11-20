@@ -38,22 +38,13 @@ export default function ProductShowcase() {
       learnMoreLink: '/products/github'
     },
     {
-      id: 'gitlab',
-      icon: '🦊',
-      name: 'GitLab MCP Server',
-      tagline: 'Complete GitLab automation',
+      id: 'n8n',
+      icon: '⚡',
+      name: 'N8N MCP Server',
+      tagline: 'Workflow automation made easy',
       status: 'coming-soon',
       launchDate: 'Q1 2026',
-      learnMoreLink: '/products/gitlab'
-    },
-    {
-      id: 'azure',
-      icon: '🔷',
-      name: 'Azure DevOps MCP Server',
-      tagline: 'Enterprise DevOps automation',
-      status: 'coming-soon',
-      launchDate: 'Q2 2026',
-      learnMoreLink: '/products/azure'
+      learnMoreLink: '/products/n8n'
     }
   ];
 
