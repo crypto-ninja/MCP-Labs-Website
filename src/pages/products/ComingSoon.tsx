@@ -6,50 +6,33 @@ import Footer from '../../components/Footer';
 import Waitlist from '../../components/Waitlist';
 
 interface ComingSoonProps {
-  product: 'GitLab' | 'Azure' | string;
+  product: 'N8N' | string;
 }
 
 const productInfo = {
-  GitLab: {
-    id: 'gitlab',
-    icon: '🦊',
-    name: 'GitLab MCP Server',
-    tagline: 'Complete GitLab automation for AI assistants',
-    description: 'Comprehensive GitLab integration bringing merge request management, CI/CD pipelines, and project automation to your AI assistant. Built with the same attention to detail and developer experience as our GitHub MCP Server.',
+  N8N: {
+    id: 'n8n',
+    icon: '⚡',
+    name: 'N8N MCP Server',
+    tagline: 'Workflow automation made easy',
+    description: 'Powerful N8N workflow automation integration enabling seamless workflow creation, management, and execution through your AI assistant. Built with the same attention to detail and developer experience as our GitHub MCP Server.',
     features: [
-      'Merge Request Management - Create, review, and merge with AI assistance',
-      'CI/CD Pipeline Control - Trigger and monitor GitLab pipelines',
-      'Issue & Epic Management - Track work items and connect them to code',
-      'Project Administration - Manage repositories and settings',
-      'Code Review Automation - Streamline review workflows',
-      'Wiki & Documentation - Manage project documentation'
+      'Workflow Management - Create, update, and manage workflows with AI',
+      'Execution Control - Trigger and monitor workflow executions',
+      'Credential Management - Securely manage N8N credentials',
+      'Node Operations - Add, configure, and modify workflow nodes',
+      'Automation Triggers - Set up webhooks and scheduled executions',
+      'Data Mapping - Handle complex data transformations'
     ],
     launchDate: 'Q1 2026',
-    estimatedTools: '25+'
-  },
-  Azure: {
-    id: 'azure',
-    icon: '🔷',
-    name: 'Azure DevOps MCP Server',
-    tagline: 'Enterprise DevOps automation at scale',
-    description: 'Enterprise-grade Azure DevOps integration for work items, repositories, pipelines, and release management. Designed for organizations that need robust, scalable DevOps automation.',
-    features: [
-      'Work Item Management - Track tasks, bugs, and user stories',
-      'Repository Operations - Manage Azure Repos with AI',
-      'Pipeline Orchestration - Build and release automation',
-      'Release Management - Control deployment workflows',
-      'Test Plan Integration - Automate testing workflows',
-      'Board Management - Agile project tracking'
-    ],
-    launchDate: 'Q2 2026',
-    estimatedTools: '30+'
+    estimatedTools: '20+'
   }
 };
 
 export default function ComingSoon({ product }: ComingSoonProps) {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
 
-  const info = productInfo[product as keyof typeof productInfo] || productInfo.GitLab;
+  const info = productInfo[product as keyof typeof productInfo] || productInfo.N8N;
 
   return (
     <div className="min-h-screen bg-white">

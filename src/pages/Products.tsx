@@ -40,36 +40,20 @@ export default function Products() {
       productLink: '/products/github'
     },
     {
-      icon: '🦊',
-      name: 'GitLab MCP Server',
-      tagline: 'Complete GitLab automation',
-      description: 'Comprehensive GitLab integration bringing merge request management, CI/CD pipelines, and project automation to your AI assistant.',
+      icon: '⚡',
+      name: 'N8N MCP Server',
+      tagline: 'Workflow automation made easy',
+      description: 'Powerful N8N workflow automation integration enabling seamless workflow creation, management, and execution through your AI assistant.',
       status: 'coming-soon',
       features: [
-        'Merge Request Management',
-        'CI/CD Pipeline Control',
-        'Issue & Epic Management',
-        'Project Administration',
-        'Code Review Automation'
+        'Workflow Management',
+        'Execution Control',
+        'Credential Management',
+        'Node Operations',
+        'Automation Triggers'
       ],
       launchDate: 'Q1 2026',
-      productLink: '/products/gitlab'
-    },
-    {
-      icon: '🔷',
-      name: 'Azure DevOps MCP Server',
-      tagline: 'Enterprise DevOps automation',
-      description: 'Enterprise-grade Azure DevOps integration for work items, repositories, pipelines, and release management at scale.',
-      status: 'coming-soon',
-      features: [
-        'Work Item Management',
-        'Repository Operations',
-        'Pipeline Orchestration',
-        'Release Management',
-        'Test Plan Integration'
-      ],
-      launchDate: 'Q2 2026',
-      productLink: '/products/azure'
+      productLink: '/products/n8n'
     }
   ];
 

@@ -19,8 +19,7 @@ function App() {
           <Route path="/success" element={<Success />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/github" element={<GitHubMCP />} />
-          <Route path="/products/gitlab" element={<ComingSoon product="GitLab" />} />
-          <Route path="/products/azure" element={<ComingSoon product="Azure" />} />
+          <Route path="/products/n8n" element={<ComingSoon product="N8N" />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
