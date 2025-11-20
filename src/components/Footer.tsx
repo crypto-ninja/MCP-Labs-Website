@@ -6,8 +6,7 @@ export default function Footer() {
     products: [
       { name: 'All Products', href: '/products', external: false },
       { name: 'GitHub MCP Server', href: '/products/github', external: false },
-      { name: 'GitLab MCP Server', href: '/products/gitlab', external: false },
-      { name: 'Azure DevOps MCP', href: '/products/azure', external: false },
+      { name: 'N8N MCP Server', href: '/products/n8n', external: false },
     ],
     resources: [
       { name: 'Documentation', href: 'https://github.com/crypto-ninja/github-mcp-server#readme', external: true },
