@@ -19,8 +19,7 @@ export default function Navigation() {
 
   const products = [
     { name: 'GitHub MCP Server', path: '/products/github', status: 'live' },
-    { name: 'GitLab MCP Server', path: '/products/gitlab', status: 'coming-soon' },
-    { name: 'Azure DevOps MCP', path: '/products/azure', status: 'coming-soon' }
+    { name: 'N8N MCP Server', path: '/products/n8n', status: 'coming-soon' }
   ];
 
   return (
