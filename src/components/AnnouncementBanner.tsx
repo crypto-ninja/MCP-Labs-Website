@@ -1,10 +1,10 @@
 import { X, Rocket } from 'lucide-react';
-import { useState } from 'react';
+import { useBanner } from '../contexts/BannerContext';
 
 export default function AnnouncementBanner() {
-  const [isVisible, setIsVisible] = useState(true);
+  const { isBannerVisible, setIsBannerVisible } = useBanner();
 
-  if (!isVisible) return null;
+  if (!isBannerVisible) return null;
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-4 z-50">
@@ -23,7 +23,7 @@ export default function AnnouncementBanner() {
         </p>
       </div>
       <button
-        onClick={() => setIsVisible(false)}
+        onClick={() => setIsBannerVisible(false)}
         className="absolute right-4 top-1/2 -translate-y-1/2 hover:bg-white/20 rounded-full p-1 transition-colors"
         aria-label="Close banner"
       >

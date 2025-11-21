@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown, User } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useBanner } from '../contexts/BannerContext';
 
 export default function Navigation() {
   const { user } = useAuth();
+  const { isBannerVisible } = useBanner();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
@@ -29,7 +31,7 @@ export default function Navigation() {
           ? 'bg-white/90 backdrop-blur-md shadow-md'
           : 'bg-white/50 backdrop-blur-sm'
       }`}
-      style={{ top: '52px' }}
+      style={{ top: isBannerVisible ? '52px' : '0' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
